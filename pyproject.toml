@@ -1,0 +1,7 @@
+[project]
+name = "qmolassist"
+version = "0.1.0"
+description = "A quantum-classical chemistry copilot"
+...
+[tool.setuptools.packages.find]
+where = ["backend"]
