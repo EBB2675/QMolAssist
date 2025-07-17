@@ -1,4 +1,4 @@
-# Quantum LLM Assistant
+# QMolAssist
 
 **Your LLM-Powered Quantum Chemistry Copilot**
 
