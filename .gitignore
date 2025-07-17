@@ -18,3 +18,7 @@ __pycache__/
 # virtual-envs
 .venv/
 env/
+
+# build artifacts
+*.egg-info/
+
