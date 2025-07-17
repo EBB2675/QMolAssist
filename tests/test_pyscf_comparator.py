@@ -1,7 +1,10 @@
 # tests/test_pyscf_comparator.py
 
-import pytest
-from backend.pyscf_comparator import compute_rhf_energy, compute_fci_energy, compare_energies
+from qmolassist.pyscf_comparator import (
+    compare_energies,
+    compute_fci_energy,
+    compute_rhf_energy,
+)
 
 
 def test_rhf_energy_h2():

@@ -3,7 +3,8 @@
 Module to compute classical reference energies using PySCF and compare to quantum results.
 """
 from typing import Dict
-from pyscf import gto, scf, fci
+
+from pyscf import fci, gto, scf
 
 
 def compute_rhf_energy(molecule: str, basis: str = "sto3g") -> float:

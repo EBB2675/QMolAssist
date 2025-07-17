@@ -2,7 +2,8 @@
 """
 Module to estimate qubit requirements for a given molecule and suggest runnable molecules under qubit constraints.
 """
-from typing import Dict, List
+from typing import Dict
+
 from qiskit_nature.second_q.drivers import PySCFDriver
 from qiskit_nature.units import DistanceUnit
 
@@ -25,7 +26,9 @@ def estimate_qubits(molecule: str, basis: str = "sto3g") -> int:
     return es_problem.num_spin_orbitals
 
 
-def suggest_molecules(candidates: Dict[str, str], qubit_limit: int, basis: str = "sto3g") -> Dict[str, int]:
+def suggest_molecules(
+    candidates: Dict[str, str], qubit_limit: int, basis: str = "sto3g"
+) -> Dict[str, int]:
     """
     Suggest molecules from a candidate list that fit within a qubit limit.
 

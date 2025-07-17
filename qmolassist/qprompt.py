@@ -2,30 +2,30 @@
 """
 Module to build VQE circuits from either SMILES or direct geometry strings.
 """
-import numpy as np
-
-# RDKit imports
-from rdkit import Chem
-from rdkit.Chem import AllChem
 
 # Qiskit primitives and algorithms
 from qiskit.primitives import Estimator
 from qiskit_algorithms.minimum_eigensolvers import VQE
 from qiskit_algorithms.optimizers import COBYLA
 
+# RDKit imports
+from rdkit import Chem
+from rdkit.Chem import AllChem
+
 # Qiskit Nature for quantum chemistry problem setup
 try:
-    from qiskit_nature.second_q.drivers import PySCFDriver
-    from qiskit_nature.units import DistanceUnit
-    from qiskit_nature.second_q.mappers import JordanWignerMapper
     from qiskit_nature.second_q.circuit.library.ansatzes.uccsd import UCCSD
-except ImportError:
-    from qiskit_nature.drivers.second_quantization import PySCFDriver
+    from qiskit_nature.second_q.drivers import PySCFDriver
+    from qiskit_nature.second_q.mappers import JordanWignerMapper
     from qiskit_nature.units import DistanceUnit
-    from qiskit_nature.mappers.second_quantization import JordanWignerMapper
+except ImportError:
     from qiskit_nature.circuit.library.second_quantization.ansatzes.uccsd import UCCSD
+    from qiskit_nature.drivers.second_quantization import PySCFDriver
+    from qiskit_nature.mappers.second_quantization import JordanWignerMapper
+    from qiskit_nature.units import DistanceUnit
 
 # Convert SMILES to XYZ
+
 
 def smiles_to_xyz(smiles: str, random_seed: int = 42) -> str:
     mol = Chem.MolFromSmiles(smiles)
@@ -41,7 +41,9 @@ def smiles_to_xyz(smiles: str, random_seed: int = 42) -> str:
         coords.append(f"{atom.GetSymbol()} {pos.x:.6f} {pos.y:.6f} {pos.z:.6f}")
     return "; ".join(coords)
 
+
 # Build VQE circuit
+
 
 def build_vqe_circuit(molecule: str, basis: str = "sto3g"):
     geometry = molecule
@@ -66,9 +68,13 @@ def build_vqe_circuit(molecule: str, basis: str = "sto3g"):
     vqe = VQE(ansatz=ansatz, optimizer=optimizer, estimator=estimator)
     _ = vqe.compute_minimum_eigenvalue(qubit_op)
 
-    return ansatz, qubit_op.num_qubits, {
-        "hamiltonian": qubit_op,
-        "num_spatial_orbitals": es_problem.num_spatial_orbitals,
-        "num_particles": es_problem.num_particles,
-        "geometry": geometry,
-    }
+    return (
+        ansatz,
+        qubit_op.num_qubits,
+        {
+            "hamiltonian": qubit_op,
+            "num_spatial_orbitals": es_problem.num_spatial_orbitals,
+            "num_particles": es_problem.num_particles,
+            "geometry": geometry,
+        },
+    )

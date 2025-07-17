@@ -1,10 +1,8 @@
 # tests/test_vqe_explorer.py
 
 import pandas as pd
-import os
-import tempfile
 
-from backend.vqe_explorer import parse_vqe_results, analyze_convergence
+from qmolassist.vqe_explorer import analyze_convergence, parse_vqe_results
 
 
 def test_parse_vqe_results(tmp_path):
@@ -28,32 +26,26 @@ iteration,energy
 
 def test_analyze_convergence_converged():
     # Data with small delta should be marked converged
-    df = pd.DataFrame({
-        'iteration': [0, 1, 2],
-        'energy': [-1.0, -1.0005, -1.0009]
-    })
+    df = pd.DataFrame({"iteration": [0, 1, 2], "energy": [-1.0, -1.0005, -1.0009]})
     result = analyze_convergence(df, threshold=1e-3)
-    assert result['final_energy'] == -1.0009
-    assert abs(result['energy_delta'] - ( -1.0005 - -1.0009 )) < 1e-8
-    assert bool(result['converged']) is True
+    assert result["final_energy"] == -1.0009
+    assert abs(result["energy_delta"] - (-1.0005 - -1.0009)) < 1e-8
+    assert bool(result["converged"]) is True
 
 
 def test_analyze_convergence_not_converged():
     # Data with large delta is not converged
-    df = pd.DataFrame({
-        'iteration': [0, 1],
-        'energy': [-1.0, -1.1]
-    })
+    df = pd.DataFrame({"iteration": [0, 1], "energy": [-1.0, -1.1]})
     result = analyze_convergence(df, threshold=1e-3)
-    assert result['final_energy'] == -1.1
-    assert result['energy_delta'] == -1.0 - -1.1
-    assert bool(result['converged']) is False
+    assert result["final_energy"] == -1.1
+    assert result["energy_delta"] == -1.0 - -1.1
+    assert bool(result["converged"]) is False
 
 
 def test_analyze_convergence_single_point():
     # Single-row DataFrame yields nan delta and not converged
-    df = pd.DataFrame({'iteration': [0], 'energy': [-1.0]})
+    df = pd.DataFrame({"iteration": [0], "energy": [-1.0]})
     result = analyze_convergence(df, threshold=1e-3)
-    assert result['final_energy'] == -1.0
-    assert pd.isna(result['energy_delta'])
-    assert result['converged'] is False
+    assert result["final_energy"] == -1.0
+    assert pd.isna(result["energy_delta"])
+    assert result["converged"] is False

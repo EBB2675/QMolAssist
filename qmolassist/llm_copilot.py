@@ -3,13 +3,14 @@
 LLM Copilot module: wrap OpenAI calls and generate natural-language explanations and suggestions
 """
 import os
+from typing import Any, Dict
+
 import openai
-from typing import Dict, Any
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-def call_llm(prompt: str, model: str = 'gpt-4o-mini', temperature: float = 0.7) -> str:
+def call_llm(prompt: str, model: str = "gpt-4o-mini", temperature: float = 0.7) -> str:
     """
     Send a prompt to the LLM and return the response text using OpenAI v1 client interface.
 
@@ -23,8 +24,8 @@ def call_llm(prompt: str, model: str = 'gpt-4o-mini', temperature: float = 0.7) 
     """
     response = openai.chat.completions.create(
         model=model,
-        messages=[{'role': 'user', 'content': prompt}],
-        temperature=temperature
+        messages=[{"role": "user", "content": prompt}],
+        temperature=temperature,
     )
     return response.choices[0].message.content.strip()
 
@@ -50,7 +51,9 @@ def explain_simulation_protocol(molecule: str, basis: str, qubit_count: int) -> 
     return call_llm(prompt)
 
 
-def suggest_molecule_selection_rationale(suggestions: Dict[str, int], qubit_limit: int) -> str:
+def suggest_molecule_selection_rationale(
+    suggestions: Dict[str, int], qubit_limit: int
+) -> str:
     """
     Explain why certain molecules fit under a given qubit limit.
 
@@ -61,7 +64,9 @@ def suggest_molecule_selection_rationale(suggestions: Dict[str, int], qubit_limi
     Returns:
         str: Explanation of selection rationale.
     """
-    entries = ', '.join([f"{name} ({count} qubits)" for name, count in suggestions.items()])
+    entries = ", ".join(
+        [f"{name} ({count} qubits)" for name, count in suggestions.items()]
+    )
     prompt = (
         f"Given a qubit limit of {qubit_limit}, the following molecules fit: {entries}. "
         "Explain why these molecules are appropriate for NISQ experiments, and what trade-offs "
@@ -80,8 +85,8 @@ def analyze_vqe_run(df: Any) -> str:
     Returns:
         str: Suggestions to improve convergence.
     """
-    last = df['energy'].iloc[-1]
-    delta = df['energy'].iloc[-2] - last if len(df) >= 2 else None
+    last = df["energy"].iloc[-1]
+    delta = df["energy"].iloc[-2] - last if len(df) >= 2 else None
     prompt = (
         f"A VQE run produced a final energy of {last:.6f} Ha with an energy change of {delta:.6f} Ha "
         "on the last iteration. "
@@ -100,7 +105,7 @@ def interpret_classical_comparison(results: Dict[str, float]) -> str:
     Returns:
         str: Natural-language interpretation of the energy differences and recommendations.
     """
-    entries = ', '.join([f"{k}: {v:.6f}" for k, v in results.items()])
+    entries = ", ".join([f"{k}: {v:.6f}" for k, v in results.items()])
     prompt = (
         f"Here are the computed energies: {entries} Ha. "
         "Explain the significance of the differences, and whether the quantum result "

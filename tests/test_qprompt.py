@@ -1,4 +1,5 @@
-from backend.qprompt import build_vqe_circuit
+from qmolassist.qprompt import build_vqe_circuit
+
 
 def test_h2_vqe_circuit_build():
     circuit, num_qubits, info = build_vqe_circuit("H 0 0 0; H 0 0 0.74")

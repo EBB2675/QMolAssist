@@ -2,10 +2,12 @@
 """
 Example script for PySCF Comparator: computes and prints RHF vs. FCI energies.
 """
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import os
+import sys
 
-from backend.pyscf_comparator import compare_energies
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from qmolassist.pyscf_comparator import compare_energies
 
 # Example molecule: H2
 molecule = "H 0 0 0; H 0 0 0.74"

@@ -3,6 +3,7 @@
 Module to parse VQE convergence results and provide analysis and suggestions.
 """
 from typing import Dict
+
 import pandas as pd
 
 
@@ -38,14 +39,14 @@ def analyze_convergence(df: pd.DataFrame, threshold: float = 1e-3) -> Dict[str, 
             - 'energy_delta': difference between last two iterations
             - 'converged': whether |energy_delta| < threshold
     """
-    final_energy = df['energy'].iloc[-1]
+    final_energy = df["energy"].iloc[-1]
     if len(df) >= 2:
-        energy_delta = df['energy'].iloc[-2] - final_energy
+        energy_delta = df["energy"].iloc[-2] - final_energy
     else:
-        energy_delta = float('nan')
+        energy_delta = float("nan")
     converged = abs(energy_delta) < threshold if not pd.isna(energy_delta) else False
     return {
-        'final_energy': final_energy,
-        'energy_delta': energy_delta,
-        'converged': converged
+        "final_energy": final_energy,
+        "energy_delta": energy_delta,
+        "converged": converged,
     }
