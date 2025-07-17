@@ -4,8 +4,6 @@
 
 ---
 
-Welcome to **Quantum LLM Assistant**, an end-to-end platform that bridges **natural language**, **quantum simulation**, and **classical benchmarking** to supercharge your computational chemistry workflows. Built for hackathons and beyond, this toolkit demonstrates how Large Language Models (LLMs) can orchestrate cutting‑edge quantum and classical methods in a single, coherent pipeline.
-
 ## 🚀 Core Functionalities
 
 1. **QPrompt**: *Natural Language → Quantum Circuit*
