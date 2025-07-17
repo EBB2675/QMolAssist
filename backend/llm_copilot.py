@@ -6,7 +6,6 @@ import os
 import openai
 from typing import Dict, Any
 
-# Ensure your OpenAI API key is set in the environment
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
@@ -32,10 +31,10 @@ def call_llm(prompt: str, model: str = 'gpt-4o-mini', temperature: float = 0.7) 
 
 def explain_simulation_protocol(molecule: str, basis: str, qubit_count: int) -> str:
     """
-    Generate a natural-language explanation of the simulation protocol.
+    Generate an NL explanation of the simulation protocol.
 
     Parameters:
-        molecule (str): Molecule geometry or SMILES.
+        molecule (str): Molecule cartesian coords or SMILES.
         basis (str): Basis set used.
         qubit_count (int): Number of qubits estimated.
 

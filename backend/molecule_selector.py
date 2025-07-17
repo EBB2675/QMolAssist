@@ -18,10 +18,10 @@ def estimate_qubits(molecule: str, basis: str = "sto3g") -> int:
     Returns:
         int: Number of spin orbitals (equal to qubit count).
     """
-    # Initialize driver to build electronic structure problem
+    # init driver to build electronic structure problem
     driver = PySCFDriver(atom=molecule, unit=DistanceUnit.ANGSTROM, basis=basis)
     es_problem = driver.run()
-    # Number of spin orbitals corresponds to required qubits
+    # number of spin orbitals corresponds to required qubits
     return es_problem.num_spin_orbitals
 
 
